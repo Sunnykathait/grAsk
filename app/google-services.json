@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "402023375951",
+    "project_id": "grask-bb0cb",
+    "storage_bucket": "grask-bb0cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402023375951:android:43d2ca1098052cd765f63a",
+        "android_client_info": {
+          "package_name": "com.example.grask"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1Nw0i35vXIRD26xHE9rrlptM-sXFFh24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingFragment">
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <LinearLayout
+           android:id="@+id/LL_settingLayout"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="200dp">
+
+           <ImageView
+               android:id="@+id/img_userImage"
+               android:layout_weight="1"
+               android:src="@drawable/baseline_person_24"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"/>
+
+
+           <TextView
+               android:id="@+id/txt_setting_userName"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:gravity="center_vertical"
+               android:layout_weight="1"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:text=""/>
+
+       </LinearLayout>
+
+       <View
+           android:layout_marginHorizontal="30dp"
+           android:layout_below="@id/LL_settingLayout"
+           android:id="@+id/divider"
+           android:layout_width="match_parent"
+           android:layout_height="1dp"
+           android:layout_weight="1"
+           android:background="?android:attr/listDivider" />
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/RV_setting"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_below="@+id/divider"
+           android:layout_alignParentBottom="true"
+           android:layout_marginStart="10dp"
+           android:layout_marginTop="10dp"
+           android:layout_marginEnd="10dp"
+           android:layout_marginBottom="10dp" />
+
+
+   </RelativeLayout>
+
+
+</FrameLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Item is selected -->
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp"/>
+            <solid android:color="#DBA538" /> <!-- Define your selected color here -->
+        </shape>
+    </item>
+    <!-- Item is not selected (default state) -->
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" /> <!-- Define your default color here -->
+        </shape>
+    </item>
+</selector>
