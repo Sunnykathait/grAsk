@@ -3,14 +3,23 @@ package com.example.grask;
 import java.util.ArrayList;
 
 public class PostClass {
-    String post, userName, empty;
+    String post, userName, empty, documentID;
     ArrayList<String> arrayList;
 
-    public PostClass(String post, String userName, String empty, ArrayList<String> arrayList) {
+    public PostClass(String post, String userName, String empty, ArrayList<String> arrayList, String documentID) {
         this.post = post;
         this.userName = userName;
         this.empty = empty;
         this.arrayList = arrayList;
+        this.documentID = documentID;
+    }
+
+    public String getDocumentID() {
+        return documentID;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
     }
 
     public String getPost() {

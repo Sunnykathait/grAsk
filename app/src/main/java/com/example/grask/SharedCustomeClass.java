@@ -9,7 +9,7 @@ public class SharedCustomeClass {
     private static SharedPreferences.Editor editor;
 
     // Initialize SharedPreferences in the constructor
-    private SharedCustomeClass(Context context) {
+    SharedCustomeClass(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }

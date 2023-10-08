@@ -14,11 +14,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
 import java.lang.reflect.Array;
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogIn = findViewById(R.id.logIn);
 
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseFirestore firebaseDatabase = FirebaseFirestore.getInstance();
 
         btnSignUP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,38 +69,24 @@ public class MainActivity extends AppCompatActivity {
                 if(edtNumber.getText().toString().length() != 10 || edtName.getText().toString().isEmpty() || edtPassword.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(), "krle thoda kaam bhadwe , dono cheeze daal", Toast.LENGTH_SHORT).show();
                 }else{
-                    DatabaseReference databaseReference = firebaseDatabase.getReference("users");
+                    DocumentReference databaseReference = firebaseDatabase.collection("users").document(edtNumber.getText().toString());
 
-                    DatabaseReference userRef = firebaseDatabase.getReference("users").child(edtNumber.getText().toString());
-
-                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        public void onSuccess(DocumentSnapshot snapshot) {
                             if(snapshot.exists()){
-                                if(snapshot.hasChild("userPassword")){
-                                    Toast.makeText(getApplicationContext(),"This number already exist",Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(getApplicationContext(),"This number already exist",Toast.LENGTH_SHORT).show();
                             }else{
-                                UserClass userClass = new UserClass(edtNumber.getText().toString(), edtName.getText().toString(), edtPassword.getText().toString(),new ArrayList<String>());
+                                UserClass userClass = new UserClass(edtNumber.getText().toString(), edtName.getText().toString(), edtPassword.getText().toString(),new ArrayList<String>(),new ArrayList<String>());
 
-                                databaseReference.child(edtNumber.getText().toString()).setValue(userClass, new DatabaseReference.CompletionListener() {
-                                    @Override
-                                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                                        if(error == null){
-                                            saveUserInfo();
-                                            changeActivity();
-                                        }
-                                    }
-                                });
+                                databaseReference.set(userClass);
+                                saveUserInfo();
+                                changeActivity();
 
                             }
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
                     });
+
                 }
             }
         });
@@ -105,30 +97,24 @@ public class MainActivity extends AppCompatActivity {
                 if(edtName.getText().toString().length() != 10 && edtPassword.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(), "Naam daal bhadwe", Toast.LENGTH_SHORT).show();
                 }else{
-                    DatabaseReference userRef = firebaseDatabase.getReference("users").child(edtNumber.getText().toString());
+                    DocumentReference userRef = firebaseDatabase.collection("users").document(edtNumber.getText().toString());
 
-                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                if(snapshot.hasChild("userPassword")){
-                                    String userPassword = snapshot.child("userPassword").getValue().toString();
-                                    if(userPassword.equals(edtPassword.getText().toString())){
-                                        Toast.makeText(getApplicationContext(),"Account verified",Toast.LENGTH_SHORT).show();
-                                        saveUserInfo();
-                                        changeActivity();
-                                    }else{
-                                        Toast.makeText(getApplicationContext(),"Wrong account details",Toast.LENGTH_SHORT).show();
-                                    }
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                String userPassword = documentSnapshot.get("userPassword").toString();
+                                if(userPassword.equals(edtPassword.getText().toString())){
+                                    Toast.makeText(getApplicationContext(),"Account verified",Toast.LENGTH_SHORT).show();
+                                    saveUserInfo();
+                                    changeActivity();
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Wrong account details",Toast.LENGTH_SHORT).show();
                                 }
                             }else{
                                 Toast.makeText(getApplicationContext(),"number not exist",Toast.LENGTH_SHORT).show();
                             }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
                         }
                     });
 

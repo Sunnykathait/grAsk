@@ -59,10 +59,11 @@ public class PostFragment extends Fragment {
                 }
                 CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(todayDate);
 
-                PostClass postClass = new PostClass(editText.getText().toString(),userName,"",new ArrayList<>());
+                PostClass postClass = new PostClass(editText.getText().toString(),userName,"",new ArrayList<>(),"");
 
                 collectionReference.add(postClass)
                         .addOnSuccessListener(documentReference -> {
+                            documentReference.update("documentID",documentReference.getId().toString());
                             Toast.makeText(getContext(),"Added",Toast.LENGTH_SHORT).show();
                         })
                         .addOnFailureListener(e -> {

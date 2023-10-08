@@ -1,5 +1,6 @@
 package com.example.grask;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,12 @@ import java.util.List;
 
 public class CustomAdpaterPostRV  extends RecyclerView.Adapter<CustomAdpaterPostRV.ViewHolder>{
 
+    private Context context;
     private List<PostClass> posts;
 
-    public CustomAdpaterPostRV(List<PostClass> posts) {
+    public CustomAdpaterPostRV(List<PostClass> posts, Context context) {
         this.posts = posts;
+        this.context = context;
     }
 
     @NonNull
@@ -33,6 +36,16 @@ public class CustomAdpaterPostRV  extends RecyclerView.Adapter<CustomAdpaterPost
         PostClass postClass = posts.get(position);
         holder.txt_userName.setText(postClass.getUserName());
         holder.txt_userPost.setText(postClass.getPost());
+        holder.txt_userPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, PostCommentActivity.class);
+                String postStr = holder.txt_userPost.getText().toString();
+                intent.putExtra("post_txt", postStr);
+                intent.putExtra("post_ID", posts.get(position).getDocumentID());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

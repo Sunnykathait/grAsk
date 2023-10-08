@@ -5,12 +5,22 @@ import java.util.ArrayList;
 public class UserClass {
     String phoneNumber, userName, userPassword;
     ArrayList<String> userPosts;
+    ArrayList<String> userTopics;
 
-    public UserClass(String phoneNumber, String userName, String userPassword, ArrayList<String> userPosts) {
+    public UserClass(String phoneNumber, String userName, String userPassword, ArrayList<String> userPosts,ArrayList<String> userTopics) {
         this.phoneNumber = phoneNumber;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userPosts = userPosts;
+        this.userTopics = userTopics;
+    }
+
+    public ArrayList<String> getUserTopics() {
+        return userTopics;
+    }
+
+    public void setUserTopics(ArrayList<String> userTopics) {
+        this.userTopics = userTopics;
     }
 
     public String getPhoneNumber() {

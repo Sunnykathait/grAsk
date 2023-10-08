@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Design.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".TopicSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PostCommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeApp"
             android:exported="false" />
         <activity

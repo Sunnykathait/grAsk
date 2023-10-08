@@ -1,6 +1,7 @@
 package com.example.grask;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,6 +29,8 @@ public class HomeFragment extends Fragment {
     ArrayList<PostClass> postClasses;
     CustomAdpaterPostRV customAdpaterPostRV;
 
+    TextView txt_goTOTopicActivity;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -41,27 +45,37 @@ public class HomeFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.RV_postHome);
 
+        txt_goTOTopicActivity = view.findViewById(R.id.txt_selectTopicAcitivity);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         postClasses = new ArrayList<>();
 
-        FirebaseFirestore firebaseDatabase = FirebaseFirestore.getInstance();
-        firebaseDatabase.collection(currentDate())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                            postClasses.add(new PostClass(documentSnapshot.get("post").toString(),
-                                    documentSnapshot.get("userName").toString(),"",new ArrayList<>()));
-                        }
-                        customAdpaterPostRV = new CustomAdpaterPostRV(postClasses);
-                        recyclerView.setAdapter(customAdpaterPostRV);
-                    }else {
-                        Toast.makeText(getContext(),"Some error occured",Toast.LENGTH_SHORT).show();
-                    }
-                });
+        txt_goTOTopicActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), TopicSelectionActivity.class);
+                startActivity(intent);
+            }
+        });
 
+
+//        FirebaseFirestore firebaseDatabase = FirebaseFirestore.getInstance();
+//        firebaseDatabase.collection(currentDate())
+//                .get()
+//                .addOnCompleteListener(task -> {
+//                    if(task.isSuccessful()){
+//                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+//                            postClasses.add(new PostClass(documentSnapshot.get("post").toString(),
+//                                    documentSnapshot.get("userName").toString(),"",new ArrayList<>(), documentSnapshot.getId().toString()));
+//                        }
+//                        customAdpaterPostRV = new CustomAdpaterPostRV(postClasses,view.getContext());
+//                        recyclerView.setAdapter(customAdpaterPostRV);
+//                    }else {
+//                        Toast.makeText(getContext(),"Some error occured",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
 
 
